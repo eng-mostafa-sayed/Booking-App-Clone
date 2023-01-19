@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRoute from "./routes/auth.middleware.js";
 import usersRoutes from "./routes/users.routes.js";
@@ -10,7 +11,7 @@ import roomsRoutes from "./routes/rooms.routes.js";
 
 const app = express();
 dotenv.config();
-
+app.use(cors({ credentials: true, origin: true }));
 const connect = async () => {
   try {
     await mongoose.connect(process.env.DB_NAME);
@@ -46,7 +47,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const port = 3000 || process.env.PORT;
+const port = 5001 || process.env.PORT;
 app.listen(port, () => {
   connect();
   console.log(`listening on "localhost://${port}"`);
